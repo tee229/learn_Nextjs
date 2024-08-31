@@ -4,15 +4,15 @@
   "rsc": true,
   "tsx": true,
   "tailwind": {
-    "config": "tailwind.config.ts",
-    "css": "src/app/styles/index.css",
+    "config": "tailwind-config.ts",
+    "css": "styles/index.css",
     "baseColor": "zinc",
     "cssVariables": true,
     "prefix": "tw-"
   },
   "aliases": {
-    "components": "@/components",
-    "ui": "@/components/shadcn",
+    "components": "@/app/_components",
+    "ui": "@/app/_components/shadcn",
     "utils": "@/libs/utils"
   }
 }

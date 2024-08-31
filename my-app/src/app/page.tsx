@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { FC } from 'react';
 
-import { Button } from '@/components/shadcn/button';
+import { Button } from '@/app/_components/shadcn/button';
 
 import $styles from './page.module.css';
 
