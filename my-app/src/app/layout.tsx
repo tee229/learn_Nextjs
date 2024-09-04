@@ -10,9 +10,7 @@ export const metadata: Metadata = {
 
 const RootLayout: FC<PropsWithChildren> = ({ children }) => (
   <html lang="en">
-      <body>
-          <div className="tw-app-layout">{children}</div>
-      </body>
+      <body>{children}</body>
   </html>
 );
 
