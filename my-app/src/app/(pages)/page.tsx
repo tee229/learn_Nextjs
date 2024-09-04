@@ -1,10 +1,9 @@
-import { FC } from 'react';
-
 import clsx from 'clsx';
 import { isNil } from 'lodash';
 import Image from 'next/image';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
+import { FC } from 'react';
 
 import { Button } from '@/app/_components/shadcn/button';
 
@@ -14,6 +13,8 @@ import { CiEdit } from 'react-icons/ci';
 import { queryPostPaginate } from '@/app/actions/post';
 
 import { Tools } from '../_components/home/tools';
+
+import { PostListPaginate } from '../_components/post/paginate';
 
 import $styles from './page.module.css';
 
@@ -82,7 +83,7 @@ const HomePage: FC<{ searchParams: Record<string, any> }> = async ({ searchParam
                     </div>
                 ))}
             </div>
-            {/* 分页组件 */}
+            {meta.totalPages! > 1 && <PostListPaginate limit={8} page={page} />}
         </div>
     );
 };
