@@ -6,9 +6,8 @@ import { redirect } from 'next/navigation';
 import { FC } from 'react';
 import { AiOutlineCalendar } from 'react-icons/ai';
 
-import { Button } from '@/app/_components/shadcn/button';
-
-import { CiEdit } from 'react-icons/ci';
+// import { Button } from '@/app/_components/shadcn/button';
+// import { CiEdit } from 'react-icons/ci';
 
 import { queryPostPaginate } from '@/app/actions/post';
 
@@ -16,6 +15,7 @@ import { Tools } from '../_components/home/tools';
 
 import { PostListPaginate } from '../_components/post/paginate';
 import { PostDelete } from '../_components/post/delete';
+import { PostEditButton } from '../_components/post/edit-button';
 
 import $styles from './page.module.css';
 
@@ -70,10 +70,11 @@ const HomePage: FC<{ searchParams: Record<string, any> }> = async ({ searchParam
                                     <time className="tw-ellips">2024年8月10日</time>
                                 </div>
                                 <div className={$styles.meta}>
-                                    <Button className="tw-mr-3">
+                                    {/* <Button className="tw-mr-3">
                                         <CiEdit className="tw-mr-2" />
                                         编辑
-                                    </Button>
+                                    </Button> */}
+                                    <PostEditButton id={item.id} />
                                     <PostDelete id={item.id} />
                                 </div>
                             </div>

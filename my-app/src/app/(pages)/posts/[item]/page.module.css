@@ -1,0 +1,3 @@
+.item {
+    @apply tw-bg-white/80 tw-flex-auto tw-w-full tw-drop-shadow-lg tw-rounded-md tw-flex tw-flex-col;
+}
