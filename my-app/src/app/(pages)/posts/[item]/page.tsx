@@ -39,7 +39,7 @@ const PostItemPage: FC<{ params: { item: string } }> = async ({ params }) => {
                             <span>
                                 <AiOutlineCalendar />
                             </span>
-                            <time className="tw-ellips">2024年8月10日</time>
+                            <time className="tw-ellips">2024年9月5日</time>
                         </div>
                     </div>
                     <div className={$styles.body}>{post.body}</div>
