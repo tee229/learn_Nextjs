@@ -4,10 +4,10 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { FC } from 'react';
+import { AiOutlineCalendar } from 'react-icons/ai';
 
 import { Button } from '@/app/_components/shadcn/button';
 
-import { AiOutlineCalendar, AiOutlineDelete } from 'react-icons/ai';
 import { CiEdit } from 'react-icons/ci';
 
 import { queryPostPaginate } from '@/app/actions/post';
@@ -15,6 +15,7 @@ import { queryPostPaginate } from '@/app/actions/post';
 import { Tools } from '../_components/home/tools';
 
 import { PostListPaginate } from '../_components/post/paginate';
+import { PostDelete } from '../_components/post/delete';
 
 import $styles from './page.module.css';
 
@@ -73,10 +74,7 @@ const HomePage: FC<{ searchParams: Record<string, any> }> = async ({ searchParam
                                         <CiEdit className="tw-mr-2" />
                                         编辑
                                     </Button>
-                                    <Button variant="outline">
-                                        <AiOutlineDelete className="tw-mr-2" />
-                                        删除
-                                    </Button>
+                                    <PostDelete id={item.id} />
                                 </div>
                             </div>
                         </div>
