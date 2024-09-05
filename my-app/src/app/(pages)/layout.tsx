@@ -1,11 +1,15 @@
-import { FC, PropsWithChildren } from 'react';
+import { FC, PropsWithChildren, ReactNode } from 'react';
 
 import { Header } from '../_components/header';
 
-const AppLayout: FC<PropsWithChildren> = ({ children }) => (
-    <div className="tw-app-layout">
-        <Header />
-        {children}
-    </div>
+const AppLayout: FC<PropsWithChildren<{ modal: ReactNode }>> = ({ children, modal }) => (
+    <>
+        <div className="tw-app-layout">
+            <Header />
+            {children}
+        </div>
+        {modal}
+    </>
 );
+
 export default AppLayout;
