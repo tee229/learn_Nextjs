@@ -13,13 +13,14 @@ import { queryPostPaginate } from '@/app/actions/post';
 
 import { Tools } from '../_components/home/tools';
 
+import { IPaginateQueryProps } from '../_components/paginate/types';
 import { PostListPaginate } from '../_components/post/paginate';
 import { PostDelete } from '../_components/post/delete';
 import { PostEditButton } from '../_components/post/edit-button';
 
 import $styles from './page.module.css';
 
-const HomePage: FC<{ searchParams: Record<string, any> }> = async ({ searchParams }) => {
+const HomePage: FC<{ searchParams: IPaginateQueryProps }> = async ({ searchParams }) => {
     const { page: currentPage, limit = 8 } = searchParams;
     // 当没有传入当前页或当前页小于1时，设置为第1页
     const page = isNil(currentPage) || Number(currentPage) < 1 ? 1 : Number(currentPage);
@@ -67,7 +68,7 @@ const HomePage: FC<{ searchParams: Record<string, any> }> = async ({ searchParam
                                     <span>
                                         <AiOutlineCalendar />
                                     </span>
-                                    <time className="tw-ellips">2024年8月10日</time>
+                                    <time className="tw-ellips">2024年9月5日</time>
                                 </div>
                                 <div className={$styles.meta}>
                                     {/* <Button className="tw-mr-3">
@@ -75,6 +76,10 @@ const HomePage: FC<{ searchParams: Record<string, any> }> = async ({ searchParam
                                         编辑
                                     </Button> */}
                                     <PostEditButton id={item.id} />
+                                    {/* <Button variant="outline">
+                                        <AiOutlineDelete className="tw-mr-2" />
+                                        删除
+                                    </Button> */}
                                     <PostDelete id={item.id} />
                                 </div>
                             </div>
