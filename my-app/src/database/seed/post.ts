@@ -1,7 +1,7 @@
 import { getRandomInt } from '@/libs/random';
 
 import { prisma } from '../client';
-import { faker } from '../utils';
+import { faker } from '@/libs/db/utils';
 
 export const createPostData = async () => {
     // 为避免重复添加数据，在重新运行数据填充时，清空已有文章数据

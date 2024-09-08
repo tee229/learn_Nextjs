@@ -9,6 +9,8 @@ import { Tools } from '@/app/_components/home/tools';
 
 import { queryPostItemById } from '@/app/actions/post';
 
+import { formatChineseTime } from '@/libs/time';
+
 import $styles from './page.module.css';
 
 const PostItemPage: FC<{ params: { item: string } }> = async ({ params }) => {
@@ -39,7 +41,11 @@ const PostItemPage: FC<{ params: { item: string } }> = async ({ params }) => {
                             <span>
                                 <AiOutlineCalendar />
                             </span>
-                            <time className="tw-ellips">2024年9月5日</time>
+                            <time className="tw-ellips">
+                                {!isNil(post.updatedAt)
+                                    ? formatChineseTime(post.updatedAt)
+                                    : formatChineseTime(post.createdAt)}
+                            </time>
                         </div>
                     </div>
                     <div className={$styles.body}>{post.body}</div>

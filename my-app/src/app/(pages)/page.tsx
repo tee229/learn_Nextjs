@@ -11,6 +11,8 @@ import { AiOutlineCalendar } from 'react-icons/ai';
 
 import { queryPostPaginate } from '@/app/actions/post';
 
+import { formatChineseTime } from '@/libs/time';
+
 import { Tools } from '../_components/home/tools';
 
 import { IPaginateQueryProps } from '../_components/paginate/types';
@@ -68,7 +70,11 @@ const HomePage: FC<{ searchParams: IPaginateQueryProps }> = async ({ searchParam
                                     <span>
                                         <AiOutlineCalendar />
                                     </span>
-                                    <time className="tw-ellips">2024年9月5日</time>
+                                    <time className="tw-ellips">
+                                        {!isNil(item.updatedAt)
+                                            ? formatChineseTime(item.updatedAt)
+                                            : formatChineseTime(item.createdAt)}
+                                    </time>
                                 </div>
                                 <div className={$styles.meta}>
                                     {/* <Button className="tw-mr-3">
