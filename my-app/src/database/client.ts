@@ -1,5 +1,11 @@
 import { PrismaClient } from '@prisma/client';
 
-const prisma = new PrismaClient();
+import { truncateExt } from './extensions/truncate';
+
+const prisma = new PrismaClient().$extends(
+    truncateExt('sqlite', {
+        resetSequence: false,
+    }),
+);
 
 export { prisma };

@@ -5,7 +5,8 @@ import { faker } from '../utils';
 
 export const createPostData = async () => {
     // 为避免重复添加数据，在重新运行数据填充时，清空已有文章数据
-    await prisma.post.deleteMany();
+    // await prisma.post.deleteMany();
+    await prisma.post.$truncate();
     for (let index = 0; index < 22; index++) {
         await prisma.post.create({
             select: { id: true },
