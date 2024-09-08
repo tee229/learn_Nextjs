@@ -4,7 +4,6 @@
   "private": true,
   "scripts": {
     "------------------ app command": "----",
-    // "dev": "rimraf src/database/db.json && next dev",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",

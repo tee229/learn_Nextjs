@@ -4,7 +4,7 @@ import { PaginationResult } from 'prisma-paginate';
 
 import { PaginateReturn } from './types';
 
-export const paginateTransform = <M, R extends PaginationResult<M[]>>(
+export const paginateTransform = <M extends Record<string, any>, R extends PaginationResult<M[]>>(
     data: R,
 ): PaginateReturn<M> => {
     const { result } = data;
