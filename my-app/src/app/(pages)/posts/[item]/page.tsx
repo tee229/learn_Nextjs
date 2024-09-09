@@ -7,6 +7,7 @@ import { AiOutlineCalendar } from 'react-icons/ai';
 
 import { Tools } from '@/app/_components/home/tools';
 
+import { MdxRemoteRender } from '@/app/_components/markdown/mdx-remote-render';
 import { queryPostItemById } from '@/app/actions/post';
 
 import { formatChineseTime } from '@/libs/time';
@@ -48,7 +49,11 @@ const PostItemPage: FC<{ params: { item: string } }> = async ({ params }) => {
                             </time>
                         </div>
                     </div>
-                    <div className={$styles.body}>{post.body}</div>
+                    {/* <div className={$styles.body}>{post.body}</div> */}
+                    <div className={$styles.body}>
+                        {/* {post.body} */}
+                        <MdxRemoteRender source={post.body} />
+                    </div>
                 </div>
             </div>
         </div>

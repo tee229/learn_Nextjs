@@ -7,4 +7,6 @@
 @import './tailwind/utilities.css';
 @import './app.css';
 
+@import './prism.css';
+
 @config "../tailwind-config.ts";

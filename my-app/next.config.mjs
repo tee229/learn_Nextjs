@@ -1,6 +1,11 @@
 import createMDX from '@next/mdx';
+import rehypePrism from 'rehype-prism-plus';
 
-const withMDX = createMDX();
+const withMDX = createMDX({
+    options: {
+        rehypePlugins: [[rehypePrism, { showLineNumbers: true }]],
+    },
+});
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
