@@ -12,6 +12,9 @@ import { createPostItem, updatePostItem } from '@/app/actions/post';
 import { Post } from '@prisma/client';
 import { getRandomInt } from '@/libs/random';
 
+import { MarkdownEditorProps } from '../markdown/types';
+import { useEditorModalContext } from '../modal/hooks';
+
 import { PostCreateData, PostFormData, PostUpdateData } from './types';
 /**
  * 生成react-form-hooks表单的状态
@@ -80,5 +83,19 @@ export const usePostFormSubmitHandler = (
             }
         },
         [{ ...params }],
+    );
+};
+
+/**
+ * 全屏BUG处理函数,传入`MarkdownEditor`
+ */
+export const usePostEditorScreenHandler = () => {
+    const { editorFullScreen } = useEditorModalContext();
+    return useMemo<MarkdownEditorProps['handlers']>(
+        () => ({
+            onBroswerScreen: editorFullScreen,
+            onPageScreen: editorFullScreen,
+        }),
+        [editorFullScreen],
     );
 };

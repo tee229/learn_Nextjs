@@ -1,7 +1,8 @@
 'use client';
 
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
 
+import { MarkdownEditor } from '../markdown/editor';
 import { Button } from '../shadcn/button';
 import {
     Form,
@@ -15,10 +16,17 @@ import {
 import { Input } from '../shadcn/input';
 import { Textarea } from '../shadcn/textarea';
 
-import { usePostActionForm, usePostFormSubmitHandler } from './hooks';
+import { usePostActionForm, usePostFormSubmitHandler, usePostEditorScreenHandler } from './hooks';
 import { PostActionFormProps } from './types';
 
 export const PostActionForm: FC<PostActionFormProps> = (props) => {
+    const [body, setBody] = useState(props.type === 'create' ? '文章内容' : props.item.body);
+    useEffect(() => {
+        form.setValue('body', body);
+    }, [body]);
+
+    const editorScreenHandler = usePostEditorScreenHandler();
+
     // 表单中的数据值获取
     const form = usePostActionForm(
         props.type === 'create' ? { type: props.type } : { type: props.type, item: props.item },
@@ -65,11 +73,18 @@ export const PostActionForm: FC<PostActionFormProps> = (props) => {
                         <FormItem>
                             <FormLabel>文章内容</FormLabel>
                             <FormControl>
-                                <Textarea
+                                {/* <Textarea
                                     placeholder="请输入内容"
                                     {...field}
                                     className="tw-min-h-80"
-                                />
+                                /> */}
+                                <MarkdownEditor
+                                    {...field}
+                                    content={body}
+                                    setContent={setBody}
+                                    handlers={editorScreenHandler}
+                                    previewTheme="arknights"
+                                    />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
