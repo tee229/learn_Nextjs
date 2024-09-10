@@ -16,3 +16,7 @@ export type PageModalProps = PropsWithChildren<{
      */
     className?: string;
 }>;
+
+export type EditorModalState = {
+    editorFullScreen?: (value: boolean) => void;
+};
