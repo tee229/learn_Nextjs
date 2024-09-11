@@ -1,5 +1,6 @@
 // import { IPost } from '@/database/types';
 import { Post, Prisma } from '@prisma/client';
+import { BaseSyntheticEvent } from 'react';
 
 /**
  * 文章操作表单组件创建文章操作的参数
@@ -39,3 +40,10 @@ export type PostUpdateData = Partial<Omit<Post, 'id'>> & { id: string };
  * 文章操作表单的submit(提交表单以创建或更新文章)函数参数
  */
 export type PostFormData = PostCreateData | PostUpdateData;
+
+/**
+ * 文章创建表单的Ref类型
+ */
+export interface PostCreateFormRef {
+    create?: (e?: BaseSyntheticEvent) => Promise<void>;
+}

@@ -1,6 +1,15 @@
 'use client';
 
-import { FC, useEffect, useState } from 'react';
+// import { FC, useEffect, useState } from 'react';
+import {
+    ChangeEventHandler,
+    forwardRef,
+    MouseEventHandler,
+    useCallback,
+    useEffect,
+    useImperativeHandle,
+    useState,
+} from 'react';
 
 import { MarkdownEditor } from '../markdown/editor';
 import { Button } from '../shadcn/button';
@@ -17,9 +26,10 @@ import { Input } from '../shadcn/input';
 import { Textarea } from '../shadcn/textarea';
 
 import { usePostActionForm, usePostFormSubmitHandler, usePostEditorScreenHandler } from './hooks';
-import { PostActionFormProps } from './types';
+import { PostActionFormProps, PostCreateFormRef } from './types';
 
-export const PostActionForm: FC<PostActionFormProps> = (props) => {
+// export const PostActionForm: FC<PostActionFormProps> = (props) => {
+export const PostActionForm = forwardRef<PostCreateFormRef, PostActionFormProps>((props, ref) => {
     const [body, setBody] = useState(props.type === 'create' ? '文章内容' : props.item.body);
     useEffect(() => {
         form.setValue('body', body);
@@ -33,6 +43,17 @@ export const PostActionForm: FC<PostActionFormProps> = (props) => {
     );
     const submitHandler = usePostFormSubmitHandler(
         props.type === 'create' ? { type: 'create' } : { type: 'update', id: props.item.id },
+    );
+
+    useImperativeHandle(
+        ref,
+        () =>
+            props.type === 'create'
+                ? {
+                      create: form.handleSubmit(submitHandler),
+                  }
+                : {},
+        [props.type],
     );
 
     return (
@@ -90,8 +111,10 @@ export const PostActionForm: FC<PostActionFormProps> = (props) => {
                         </FormItem>
                     )}
                 />
-                <Button type="submit">保存</Button>
+                {/* <Button type="submit">保存</Button> */}
+                {props.type === 'update' && <Button type="submit">保存</Button>}
             </form>
         </Form>
     );
-};
+});
+// };
