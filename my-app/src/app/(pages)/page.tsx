@@ -43,7 +43,8 @@ const HomePage: FC<{ searchParams: IPaginateQueryProps }> = async ({ searchParam
                         style={{ '--bg-img': `url(${item.thumb})` } as any}
                         key={item.id}
                     >
-                        <Link className={$styles.thumb} href={`/posts/${item.id}`}>
+                        {/* <Link className={$styles.thumb} href={`/posts/${item.id}`}> */}
+                        <Link className={$styles.thumb} href={`/posts/${item.slug || item.id}`}>
                             <Image
                                 src={item.thumb}
                                 alt={item.title}
@@ -56,7 +57,8 @@ const HomePage: FC<{ searchParams: IPaginateQueryProps }> = async ({ searchParam
                         </Link>
                         <div className={$styles.content}>
                             <div className={clsx($styles.title, 'tw-hover')}>
-                                <Link href={`/posts/${item.id}`}>
+                                {/* <Link href={`/posts/${item.id}`}> */}
+                                <Link href={`/posts/${item.slug || item.id}`}>
                                     <h2 className="tw-ellips tw-animate-decoration tw-animate-decoration-lg">
                                         {item.title}
                                     </h2>

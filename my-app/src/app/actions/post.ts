@@ -44,6 +44,33 @@ export const queryPostTotalPages = async (limit = 8): Promise<number> => {
 };
 
 /**
+ * 根据id或slug查询文章信息
+ * @param arg
+ */
+export const queryPostItem = async (arg: string): Promise<Post | null> => {
+    const item = await db.post.findFirst({
+        where: {
+            OR: [
+                { id: arg },
+                {
+                    slug: arg,
+                },
+            ],
+        },
+    });
+    return item;
+};
+
+/**
+ * 根据slug查询文章信息
+ * @param slug
+ */
+export const queryPostItemBySlug = async (slug: string): Promise<Post | null> => {
+    const item = await db.post.findUnique({ where: { slug } });
+    return item;
+};
+
+/**
  * 根据ID查询文章信息
  * @param id
  */

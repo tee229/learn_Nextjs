@@ -18,7 +18,8 @@ export const PostCreateButton: FC = () => {
     }, [searchParams]);
     return (
         <Button asChild className="tw-justify-end tw-rounded-sm tw-ml-auto" variant="outline">
-            <Link href={`/post-create${getUrlQuery}`}>
+            {/* <Link href={`/post-create${getUrlQuery}`}> */}
+            <Link href={`/posts/create${getUrlQuery}`}>
                 <IoMdAdd className="tw-mr-2 " />
                 创建
             </Link>

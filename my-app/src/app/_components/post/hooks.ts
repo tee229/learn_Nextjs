@@ -30,6 +30,9 @@ export const usePostActionForm = (params: { type: 'create' } | { type: 'update';
                 title: '文章标题',
                 body: '文章内容',
                 summary: '',
+                slug: '',
+                keywords: '',
+                description: '',
             } as DeepNonNullable<PostCreateData>;
         }
 
@@ -37,6 +40,9 @@ export const usePostActionForm = (params: { type: 'create' } | { type: 'update';
             title: params.item.title,
             body: params.item.body,
             summary: isNil(params.item.summary) ? '' : params.item.summary,
+            slug: isNil(params.item.slug) ? '' : params.item.slug,
+            keywords: isNil(params.item.keywords) ? '' : params.item.keywords,
+            description: isNil(params.item.description) ? '' : params.item.description,
         } as DeepNonNullable<PostUpdateData>;
     }, [params.type]);
     return useForm<DeepNonNullable<PostFormData>>({

@@ -1,4 +1,5 @@
 import { isNil } from 'lodash';
+import { Metadata, ResolvingMetadata } from 'next';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { FC } from 'react';
@@ -9,14 +10,31 @@ import { Tools } from '@/app/_components/home/tools';
 
 // import { MdxRemoteRender } from '@/app/_components/markdown/mdx-remote-render';
 import { MarkdownPreview } from '@/app/_components/markdown/preivew';
-import { queryPostItemById } from '@/app/actions/post';
+import { queryPostItemById, queryPostItem } from '@/app/actions/post';
 
 import { formatChineseTime } from '@/libs/time';
 
 import $styles from './page.module.css';
 
+export const generateMetadata = async (
+    { params }: { params: { item: string } },
+    parent: ResolvingMetadata,
+): Promise<Metadata> => {
+    const { item: id } = params;
+    const post = await queryPostItem(id);
+
+    if (isNil(post)) return {};
+
+    return {
+        title: `${post.title} - ${(await parent).title?.absolute}`,
+        keywords: post.keywords,
+        description: post.description,
+    };
+};
+
 const PostItemPage: FC<{ params: { item: string } }> = async ({ params }) => {
-    const post = await queryPostItemById(params.item);
+    // const post = await queryPostItemById(params.item);
+    const post = await queryPostItem(params.item);
     if (isNil(post)) return notFound();
     return (
         <div className="tw-page-container">
@@ -61,4 +79,5 @@ const PostItemPage: FC<{ params: { item: string } }> = async ({ params }) => {
         </div>
     );
 };
+
 export default PostItemPage;

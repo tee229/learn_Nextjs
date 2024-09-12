@@ -1,5 +1,7 @@
 'use client';
 
+import { isNil, trim } from 'lodash';
+import Link from 'next/link';
 // import { FC, useEffect, useState } from 'react';
 import {
     ChangeEventHandler,
@@ -11,6 +13,9 @@ import {
     useState,
 } from 'react';
 
+import { generateLowerString } from '@/libs/utils';
+
+import { Details } from '../collapsible/details';
 import { MarkdownEditor } from '../markdown/editor';
 import { Button } from '../shadcn/button';
 import {
@@ -34,6 +39,22 @@ export const PostActionForm = forwardRef<PostCreateFormRef, PostActionFormProps>
     useEffect(() => {
         form.setValue('body', body);
     }, [body]);
+
+    const [slug, setSlug] = useState(props.type === 'create' ? '' : props.item.slug || '');
+    const changeSlug: ChangeEventHandler<HTMLInputElement> = useCallback(
+        (e) => setSlug(e.target.value),
+        [],
+    );
+
+    const generateTitleSlug: MouseEventHandler<HTMLAnchorElement> = useCallback((e) => {
+        e.preventDefault();
+        const title = trim(form.getValues('title'), '');
+        if (title) setSlug(generateLowerString(title));
+      }, []);
+
+      useEffect(() => {
+        form.setValue('slug', slug);
+      }, [slug]);
 
     const editorScreenHandler = usePostEditorScreenHandler();
 
@@ -72,20 +93,93 @@ export const PostActionForm = forwardRef<PostCreateFormRef, PostActionFormProps>
                         </FormItem>
                     )}
                 />
-                <FormField
-                    control={form.control}
-                    name="summary"
-                    render={({ field }) => (
-                        <FormItem className="tw-mt-2 tw-pb-1 tw-border-b tw-border-dashed">
-                            <FormLabel>摘要简述</FormLabel>
-                            <FormControl>
-                                <Textarea placeholder="请输入文章摘要" {...field} />
-                            </FormControl>
-                            <FormDescription>摘要会显示在文章列表页</FormDescription>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
+
+                <Details summary="可选字段">
+                    <FormField
+                        control={form.control}
+                        name="summary"
+                        render={({ field }) => (
+                            <FormItem className="tw-mt-2 tw-pb-1 tw-border-b tw-border-dashed">
+                                <FormLabel>摘要简述</FormLabel>
+                                <FormControl>
+                                    <Textarea placeholder="请输入文章摘要" {...field} />
+                                </FormControl>
+                                <FormDescription>摘要会显示在文章列表页</FormDescription>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+
+                    <div className="tw-mt-2 tw-pb-1 tw-border-b tw-border-dashed">
+                        <FormField
+                            control={form.control}
+                            name="slug"
+                            render={({ field }) => (
+                                <FormItem className="">
+                                    <FormLabel>唯一URL</FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            {...field}
+                                            value={slug}
+                                            onChange={changeSlug}
+                                            placeholder="请输入唯一URL"
+                                            disabled={form.formState.isSubmitting}
+                                        />
+                                    </FormControl>
+                                    <FormDescription>
+                                        如果留空,则文章访问地址是id
+                                        <Link
+                                            className="tw-ml-5 tw-mr-1"
+                                            href="#"
+                                            onClick={generateTitleSlug}
+                                            aria-disabled={form.formState.isSubmitting}
+                                        >
+                                            [点此]
+                                        </Link>
+                                        自动生成slug(根据标题使用&apos;-&apos;连接字符拼接而成,中文字自动转换为拼音)
+                                    </FormDescription>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                    </div>
+
+                    <FormField
+                        control={form.control}
+                        name="keywords"
+                        render={({ field }) => (
+                            <FormItem className="tw-mt-2 tw-pb-1 tw-border-b tw-border-dashed">
+                                <FormLabel>关键字</FormLabel>
+                                <FormControl>
+                                    <Input
+                                        placeholder="请输入关键字,用逗号分割(关键字是可选的)"
+                                        {...field}
+                                    />
+                                </FormControl>
+                                <FormDescription>
+                                    关键字不会显示,仅在SEO时发挥作用.每个关键字之间请用英文逗号(,)分割
+                                </FormDescription>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="description"
+                        render={({ field }) => (
+                            <FormItem className="tw-mt-2 tw-pb-1 tw-border-b tw-border-dashed">
+                                <FormLabel>文章描述</FormLabel>
+                                <FormControl>
+                                    <Textarea placeholder="请输入文章描述" {...field} />
+                                </FormControl>
+                                <FormDescription>
+                                    文章描述不会显示,仅在SEO时发挥作用
+                                </FormDescription>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                </Details>
 
                 <FormField
                     control={form.control}

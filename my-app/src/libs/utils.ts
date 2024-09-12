@@ -1,6 +1,8 @@
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
 import deepmerge from 'deepmerge';
+import { lowerCase, trim } from 'lodash';
+import pinyin from 'pinyin';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -24,4 +26,17 @@ export const deepMerge = <T1, T2>(
       options.arrayMerge = (_d, s, _o) => Array.from(new Set([..._d, ...s]));
   }
   return deepmerge(x, y, options) as T2 extends T1 ? T1 : T1 & T2;
+};
+
+export const generateLowerString = (from: string) => {
+  const slug = pinyin(from, {
+      style: 0,
+      segment: false,
+  })
+      .map((words) => words[0])
+      .join('-');
+  return lowerCase(slug)
+      .split(' ')
+      .map((v) => trim(v, ' '))
+      .join('-');
 };
