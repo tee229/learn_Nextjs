@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import { FC, PropsWithChildren, ReactNode } from 'react';
 
 import { Header } from '../_components/header';
+import { Toaster } from '../_components/shadcn/toaster';
 
 export const metadata: Metadata = {
     title: 'tee229的博客',
@@ -16,6 +17,7 @@ const AppLayout: FC<PropsWithChildren<{ modal: ReactNode }>> = ({ children, moda
             {children}
         </div>
         {modal}
+        <Toaster />
     </>
 );
 

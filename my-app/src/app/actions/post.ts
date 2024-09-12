@@ -48,6 +48,7 @@ export const queryPostTotalPages = async (limit = 8): Promise<number> => {
  * @param arg
  */
 export const queryPostItem = async (arg: string): Promise<Post | null> => {
+    // throw new Error('数据加载错误，请稍后重试！');
     const item = await db.post.findFirst({
         where: {
             OR: [
@@ -129,6 +130,7 @@ export const updatePostItem = async (
     id: string,
     data: Partial<Omit<Post, 'id'>>,
 ): Promise<Post> => {
+    // throw new Error('表单提交错误，请稍后重试！');
     const item = await db.post.update({ where: { id }, data });
     revalidateTag('posts');
     return item;

@@ -16,6 +16,8 @@ import { getRandomInt } from '@/libs/random';
 import { MarkdownEditorProps } from '../markdown/types';
 import { useEditorModalContext } from '../modal/hooks';
 
+import { useToast } from '../shadcn/use-toast';
+
 import { generatePostFormValidator } from './form-validator';
 import { PostCreateData, PostFormData, PostUpdateData } from './types';
 /**
@@ -63,6 +65,7 @@ export const usePostFormSubmitHandler = (
     params: { type: 'create' } | { type: 'update'; id: string },
 ) => {
     const router = useRouter();
+    const { toast } = useToast();
 
     return useCallback(
         async (data: PostFormData) => {
@@ -91,7 +94,11 @@ export const usePostFormSubmitHandler = (
                 // 注意,这里不要用push,防止在详情页后退后返回到创建或编辑页面的弹出框
                 if (!isNil(post)) router.replace(`/posts/${post.id}`);
             } catch (error) {
-                console.error(error);
+                toast({
+                    variant: 'destructive',
+                    title: '遇到服务器错误,请联系管理员处理',
+                    description: (error as Error).message,
+                });
             }
         },
         [{ ...params }],

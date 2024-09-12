@@ -20,14 +20,21 @@ import { Button } from '@/app/_components/shadcn/button';
 
 import { deletePostItem } from '@/app/actions/post';
 
+import { useToast } from '../shadcn/use-toast';
+
 export const PostDelete: FC<{ id: string }> = ({ id }) => {
+    const { toast } = useToast();
     const router = useRouter();
 
     const deleteItem = useCallback(async () => {
         try {
             await deletePostItem(id);
         } catch (error) {
-            console.error(error);
+            toast({
+                variant: 'destructive',
+                title: '遇到服务器错误,请联系管理员处理',
+                description: (error as Error).message,
+            });
         }
         // 删除文章后刷新页面
         router.refresh();
