@@ -1,5 +1,6 @@
 'use client';
 
+import { zodResolver } from '@hookform/resolvers/zod';
 import { isNil, trim } from 'lodash';
 import { useRouter } from 'next/navigation';
 import { useCallback, useMemo } from 'react';
@@ -15,6 +16,7 @@ import { getRandomInt } from '@/libs/random';
 import { MarkdownEditorProps } from '../markdown/types';
 import { useEditorModalContext } from '../modal/hooks';
 
+import { generatePostFormValidator } from './form-validator';
 import { PostCreateData, PostFormData, PostUpdateData } from './types';
 /**
  * 生成react-form-hooks表单的状态
@@ -46,6 +48,10 @@ export const usePostActionForm = (params: { type: 'create' } | { type: 'update';
         } as DeepNonNullable<PostUpdateData>;
     }, [params.type]);
     return useForm<DeepNonNullable<PostFormData>>({
+        mode: 'all',
+        resolver: zodResolver(
+            generatePostFormValidator(params.type === 'update' ? params.item.id : undefined),
+        ),
         defaultValues,
     });
 };
