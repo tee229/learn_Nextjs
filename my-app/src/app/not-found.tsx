@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { FC } from 'react';
+import React, { FC } from 'react';
 
 import { Header } from './_components/header';
 
