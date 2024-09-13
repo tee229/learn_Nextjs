@@ -2,16 +2,19 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
-First, run the development server:
+First, init the dev.db:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+# prisma db seed, 22 pieces of data were randomly generated based on seeds
+pnpm dbs
+# prisma studio, online database preview tool accessed through http://localhost:5555/
+pnpm dbo
+```
+
+Then, run the development server:
+
+```bash
 pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
