@@ -45,16 +45,9 @@ export const PostActionForm = forwardRef<PostCreateFormRef, PostActionFormProps>
         (e) => setSlug(e.target.value),
         [],
     );
-
-    const generateTitleSlug: MouseEventHandler<HTMLAnchorElement> = useCallback((e) => {
-        e.preventDefault();
-        const title = trim(form.getValues('title'), '');
-        if (title) setSlug(generateLowerString(title));
-      }, []);
-
-      useEffect(() => {
+    useEffect(() => {
         form.setValue('slug', slug);
-      }, [slug]);
+    }, [slug]);
 
     const editorScreenHandler = usePostEditorScreenHandler();
 
@@ -65,6 +58,28 @@ export const PostActionForm = forwardRef<PostCreateFormRef, PostActionFormProps>
     const submitHandler = usePostFormSubmitHandler(
         props.type === 'create' ? { type: 'create' } : { type: 'update', id: props.item.id },
     );
+
+    // const generateTitleSlug: MouseEventHandler<HTMLAnchorElement> = useCallback((e) => {
+    //     e.preventDefault();
+    //     const title = trim(form.getValues('title'), '');
+    //     if (title) setSlug(generateLowerString(title));
+    // }, []);
+
+    const generateTitleSlug: MouseEventHandler<HTMLAnchorElement> = useCallback(
+        (e) => {
+            e.preventDefault();
+            if (!form.formState.isSubmitting) {
+                const title = trim(form.getValues('title'), '');
+                if (title) setSlug(generateLowerString(title));
+            }
+        },
+        [form.formState.isSubmitting],
+    );
+
+    useEffect(() => {
+        if (props.type === 'create' && !isNil(props.setPadding))
+            props.setPadding(form.formState.isSubmitting);
+    }, [form.formState.isSubmitting]);
 
     useImperativeHandle(
         ref,
@@ -87,7 +102,12 @@ export const PostActionForm = forwardRef<PostCreateFormRef, PostActionFormProps>
                         <FormItem>
                             <FormLabel>文章标题</FormLabel>
                             <FormControl>
-                                <Input placeholder="请输入标题" {...field} />
+                                {/* <Input placeholder="请输入标题" {...field} /> */}
+                                <Input
+                                    {...field}
+                                    placeholder="请输入标题"
+                                    disabled={form.formState.isSubmitting}
+                                />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
@@ -102,7 +122,12 @@ export const PostActionForm = forwardRef<PostCreateFormRef, PostActionFormProps>
                             <FormItem className="tw-mt-2 tw-pb-1 tw-border-b tw-border-dashed">
                                 <FormLabel>摘要简述</FormLabel>
                                 <FormControl>
-                                    <Textarea placeholder="请输入文章摘要" {...field} />
+                                    {/* <Textarea placeholder="请输入文章摘要" {...field} /> */}
+                                    <Textarea
+                                        {...field}
+                                        placeholder="请输入文章摘要"
+                                        disabled={form.formState.isSubmitting}
+                                    />
                                 </FormControl>
                                 <FormDescription>摘要会显示在文章列表页</FormDescription>
                                 <FormMessage />
@@ -152,8 +177,9 @@ export const PostActionForm = forwardRef<PostCreateFormRef, PostActionFormProps>
                                 <FormLabel>关键字</FormLabel>
                                 <FormControl>
                                     <Input
-                                        placeholder="请输入关键字,用逗号分割(关键字是可选的)"
                                         {...field}
+                                        placeholder="请输入关键字,用逗号分割(关键字是可选的)"
+                                        disabled={form.formState.isSubmitting}
                                     />
                                 </FormControl>
                                 <FormDescription>
@@ -170,7 +196,12 @@ export const PostActionForm = forwardRef<PostCreateFormRef, PostActionFormProps>
                             <FormItem className="tw-mt-2 tw-pb-1 tw-border-b tw-border-dashed">
                                 <FormLabel>文章描述</FormLabel>
                                 <FormControl>
-                                    <Textarea placeholder="请输入文章描述" {...field} />
+                                    {/* <Textarea placeholder="请输入文章描述" {...field} /> */}
+                                    <Textarea
+                                        {...field}
+                                        placeholder="请输入文章描述"
+                                        disabled={form.formState.isSubmitting}
+                                    />
                                 </FormControl>
                                 <FormDescription>
                                     文章描述不会显示,仅在SEO时发挥作用
@@ -199,14 +230,20 @@ export const PostActionForm = forwardRef<PostCreateFormRef, PostActionFormProps>
                                     setContent={setBody}
                                     handlers={editorScreenHandler}
                                     previewTheme="arknights"
-                                    />
+                                    disabled={form.formState.isSubmitting}
+                                />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
                     )}
                 />
                 {/* <Button type="submit">保存</Button> */}
-                {props.type === 'update' && <Button type="submit">保存</Button>}
+                {/* {props.type === 'update' && <Button type="submit">保存</Button>} */}
+                {props.type === 'update' && (
+                    <Button type="submit" disabled={form.formState.isSubmitting}>
+                        {form.formState.isSubmitting ? '更新中...' : '保存'}
+                    </Button>
+                )}
             </form>
         </Form>
     );

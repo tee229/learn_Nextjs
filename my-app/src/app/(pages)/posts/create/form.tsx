@@ -13,9 +13,9 @@ import $styles from './style.module.css';
 
 export const PostCreateForm: FC = () => {
     const ref = useRef<PostCreateFormRef | null>(null);
-    const [pedding, setPedding] = useState(false);
+    const [padding, setPadding] = useState(false);
     const changePadding = useCallback((value: boolean) => {
-        setPedding(value);
+        setPadding(value);
     }, []);
     const createPost = useCallback<MouseEventHandler<HTMLButtonElement>>(async (e) => {
         e.preventDefault();
@@ -25,12 +25,12 @@ export const PostCreateForm: FC = () => {
         <>
             <div className={$styles.actions}>
                 <BackButton />
-                <Button onClick={createPost} disabled={pedding}>
-                    {pedding ? '保存中...' : '保存'}
+                <Button onClick={createPost} disabled={padding}>
+                    {padding ? '保存中...' : '保存'}
                     <MdOutlineSave className="tw-ml-2" />
                 </Button>
             </div>
-            <PostActionForm ref={ref} type="create"/>
+            <PostActionForm ref={ref} type="create" setPadding={changePadding} />
         </>
     );
 };

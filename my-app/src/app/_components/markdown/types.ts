@@ -3,6 +3,10 @@
  */
 export type MarkdownEditorProps = {
     /**
+     * 是否禁用
+     */
+    disabled?: boolean;
+    /**
      * 预览部分的主题样式
      */
     previewTheme?: string;

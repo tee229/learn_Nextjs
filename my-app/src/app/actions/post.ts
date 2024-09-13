@@ -112,6 +112,7 @@ export const queryPostItemById = async (id: string): Promise<Post | null> => {
 //     return item;
 // };
 export const createPostItem = async (data: Prisma.PostCreateInput): Promise<Post> => {
+    // await loadingTime();
     const item = await db.post.create({ data });
     revalidateTag('posts');
     return item;
@@ -143,6 +144,7 @@ export const updatePostItem = async (
     data: Partial<Omit<Post, 'id'>>,
 ): Promise<Post> => {
     // throw new Error('表单提交错误，请稍后重试！');
+    // await loadingTime();
     const item = await db.post.update({ where: { id }, data });
     revalidateTag('posts');
     return item;
@@ -161,6 +163,8 @@ export const deletePostItem = async (id: string): Promise<Post | null> => {
     // await resetDbFile(posts);
     // revalidateTag('posts');
     // return item;
+    
+    // await loadingTime();
     const item = await db.post.findUnique({ where: { id } });
     if (!isNil(item)) {
         await db.post.delete({ where: { id } });

@@ -7,6 +7,7 @@ import { FC, forwardRef, useRef, useState } from 'react';
 
 import { useMount } from 'react-use';
 
+import $styles from './editor.module.css';
 import { MarkdownEditorProps } from './types';
 
 export const MarkdownEditor: FC<MarkdownEditorProps> = forwardRef((props, _) => {
@@ -42,7 +43,9 @@ export const MarkdownEditor: FC<MarkdownEditorProps> = forwardRef((props, _) => 
     return (
         <MdEditor
             {...rest}
+            className={$styles.editor}
             editorId="markdown-editor"
+            disabled={props.disabled ?? false}
             modelValue={content}
             onChange={setContent}
             pageFullscreen={pageFullscreen}

@@ -10,6 +10,7 @@ import { generatePostFormValidator } from './form-validator';
  */
 export interface PostCreateFormProps {
     type: 'create';
+    setPadding?: (value: boolean) => void;
 }
 
 /**
