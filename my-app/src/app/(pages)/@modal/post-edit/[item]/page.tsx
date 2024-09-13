@@ -1,6 +1,7 @@
 import { Metadata, ResolvingMetadata } from 'next';
-import { FC } from 'react';
+import { FC, Suspense } from 'react';
 
+import { ModalSkeleton } from '@/app/_components/loading/modal';
 // import { PageModal } from '@/app/_components/modal/page-modal';
 import { EditorModal } from '@/app/_components/modal/editor-modal';
 import { PostEditForm } from './form';
@@ -22,7 +23,9 @@ const PostEditPage: FC<{ params: { item: string } }> = async ({ params: { item }
         // </PageModal>
         
         <EditorModal title="编辑文章" match={['/post-edit/*']}>
-            <PostEditForm id={item} />
+            <Suspense fallback={<ModalSkeleton />}>
+                <PostEditForm id={item} />
+            </Suspense>
         </EditorModal>
     );
 };

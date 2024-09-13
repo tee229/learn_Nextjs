@@ -14,6 +14,13 @@ import db from '@/libs/db/client';
 import { PaginateOptions, PaginateReturn } from '@/libs/db/types';
 import { paginateTransform } from '@/libs/db/utils';
 
+const loadingTime = () =>
+    new Promise((r) => {
+        setTimeout(() => {
+            r(true);
+        }, 3000);
+    });
+
 /**
  * 查询分页文章列表信息
  * @param options
@@ -25,6 +32,7 @@ export const queryPostPaginate = async (
     // 此处使用倒序,以便新增的文章可以排在最前面
     // const posts = (await readDbFile()).reverse();
     // return paginate(posts, { page: 1, limit: 8, ...options });
+    // await loadingTime();
     const data = await db.post.paginate({
         orderBy: [{ updatedAt: 'desc' }, { createdAt: 'desc' }],
         page: 1,
@@ -39,6 +47,7 @@ export const queryPostPaginate = async (
  * @param limit
  */
 export const queryPostTotalPages = async (limit = 8): Promise<number> => {
+    // await loadingTime();
     const data = await queryPostPaginate({ page: 1, limit });
     return data.meta.totalPages ?? 0;
 };
@@ -49,6 +58,7 @@ export const queryPostTotalPages = async (limit = 8): Promise<number> => {
  */
 export const queryPostItem = async (arg: string): Promise<Post | null> => {
     // throw new Error('数据加载错误，请稍后重试！');
+    // await loadingTime();
     const item = await db.post.findFirst({
         where: {
             OR: [
@@ -67,6 +77,7 @@ export const queryPostItem = async (arg: string): Promise<Post | null> => {
  * @param slug
  */
 export const queryPostItemBySlug = async (slug: string): Promise<Post | null> => {
+    // await loadingTime();
     const item = await db.post.findUnique({ where: { slug } });
     return item;
 };
@@ -80,6 +91,7 @@ export const queryPostItemById = async (id: string): Promise<Post | null> => {
     // const posts = await readDbFile();
     // const item = posts.find((post) => post.id === id);
     // if (isNil(item)) throw new Error('post not exists!');
+    // await loadingTime();
     const item = await db.post.findUnique({ where: { id } });
     return item;
 };
