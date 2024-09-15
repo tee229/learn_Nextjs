@@ -29,7 +29,7 @@ export const generatePostFormValidator = (id?: string) => {
                     message: '标题不得超过200个字符',
                 }),
             body: z.string().min(1, {
-                message: '标题不得少于1个字符',
+                message: '内容不得少于1个字符',
             }),
             summary: z
                 .string()
@@ -49,7 +49,7 @@ export const generatePostFormValidator = (id?: string) => {
             keywords: z
                 .string()
                 .max(200, {
-                    message: '描述不得超过200个字符',
+                    message: '关键字不得超过200个字符',
                 })
                 .optional(),
             description: z
